@@ -78,13 +78,10 @@
   <ItemGroup>
     <ClCompile Include="benchmark.cpp" />
     <ClCompile Include="BenchmarkRunner.cpp" />
-    <ClCompile Include="src\Profiler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Benchmark.h" />
     <ClInclude Include="BenchmarkRunner.h" />
     <ClInclude Include="SimpleTest.h" />
-    <ClInclude Include="src\Profiler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

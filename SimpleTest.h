@@ -1,4 +1,4 @@
-#include "Benchmark.h"
+#include "BenchmarkRunner.h"
 #include <stdio.h>
 
 
@@ -13,20 +13,7 @@ std::string number_to_string(int x){
 	return s;
 }
 
-BENCHMARK(SimpleTest) {
+BENCHMARK("SimpleTest", 20, 10) {
 	int i = 421234;
-	//printf("Hello world %s\n",number_to_string(i).c_str());
 	std::string str = number_to_string(i);
 }
-/*
-class SimpleTest : public Benchmark {
-
-public:
-	SimpleTest() : Benchmark("SimpleTest") {}
-	virtual void execute() {
-		int i = 421234;
-		//printf("Hello world %s\n",number_to_string(i).c_str());
-		std::string str = number_to_string(i);
-	}
-};
-*/
