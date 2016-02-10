@@ -1,7 +1,7 @@
 # benchmark
 Very simple benchmarking utility written in simple C++. Easy to integrate and use.
 ## How to build
-Just take the BenchmarkRunner.h and BenchmarkRunner.cpp files and include them in your project.
+Just take the BenchmarkRunner.h and BenchmarkRunner.cpp files located in the source subdirectory and include them in your project.
 Then in your main method you simply call:
 
     int main(int argc, char* argv[]) {

@@ -10,6 +10,14 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\demo\benchmark.cpp" />
+    <ClCompile Include="..\source\BenchmarkRunner.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\demo\SimpleTest.h" />
+    <ClInclude Include="..\source\BenchmarkRunner.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CFCDD1D8-22C1-401F-B8F2-4308709EF888}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -75,14 +83,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="benchmark.cpp" />
-    <ClCompile Include="BenchmarkRunner.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="BenchmarkRunner.h" />
-    <ClInclude Include="SimpleTest.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
