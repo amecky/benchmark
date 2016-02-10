@@ -2,28 +2,9 @@
 #include <windows.h>
 #include <vector>
 
-// ---------------------------------------------
-// Stopwatch
-// ---------------------------------------------
-class StopWatch {
-
-public:
-	StopWatch();
-	explicit StopWatch(const char* name);
-	~StopWatch();
-	void start();
-	void end();
-	double elapsed();
-
-private:
-	char _name[32];
-	bool _running;
-	LARGE_INTEGER startingTime;
-	LARGE_INTEGER frequency;
-	float _delta;
-};
-
-#define INTERNAL_UNIQUE_NAME( name ) name##__FILE__##__LINE__ 
+#define INTERNAL_UNIQUE_NAME_ALL( name , line ) name##line
+#define INTERNAL_UNIQUE_NAME2( name, line ) INTERNAL_UNIQUE_NAME_ALL(name,line)
+#define INTERNAL_UNIQUE_NAME( name ) INTERNAL_UNIQUE_NAME2(name,__LINE__)
 
 // ---------------------------------------------
 // benchmark function pointer

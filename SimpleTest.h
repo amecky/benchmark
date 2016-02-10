@@ -17,3 +17,9 @@ BENCHMARK("SimpleTest", 20, 10) {
 	int i = 421234;
 	std::string str = number_to_string(i);
 }
+
+
+BENCHMARK("SimpleTest2", 20, 10) {
+	int i = 42;
+	std::string str = number_to_string(i);
+}
