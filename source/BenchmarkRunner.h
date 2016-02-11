@@ -23,46 +23,105 @@ struct AutoReg;
         static void INTERNAL_UNIQUE_NAME(  ____BENCHMARK____ )()
 
 // ---------------------------------------------
-// Benchmark result
+// Benchmark
 // ---------------------------------------------
-struct BenchmarkResult {
-	int interations;
+struct Benchmark {
+	const char* name;
+	BenchmarkFunctionPtr benchmark;
+	int runs;
+	int iterations;
 	float minimum;
 	float maximum;
 	float average;
 	float elapsed;
+	float* timings;
+
+	Benchmark() : benchmark(0), runs(1), iterations(1) , minimum(0.0f) , maximum(0.0f) , average(0.0f) , elapsed(0.0f) , timings(0) {}
+
+	~Benchmark() {
+		if (timings != 0) {
+			delete[] timings;
+		}
+	}
+};
+// ---------------------------------------------
+// Result writer base class
+// ---------------------------------------------
+class ResultWriter {
+
+public:
+	ResultWriter() {}
+	virtual ~ResultWriter() {}
+	virtual void generate(const Benchmark& benchmark) const = 0;
 };
 
+// ---------------------------------------------
+// Console result writer
+// ---------------------------------------------
+class ConsoleResultWriter : public ResultWriter {
+
+public:
+	ConsoleResultWriter() : ResultWriter() {}
+	virtual ~ConsoleResultWriter() {}
+	void generate(const Benchmark& benchmark) const {
+		printf("=========== Result ===========\n");
+		printf("Benchmark  : %s\n", benchmark.name);
+		printf("Runs       : %d\n", benchmark.runs);
+		printf("Iterations : %d\n", benchmark.iterations);
+		printf("Total      : %g microsecs\n", benchmark.elapsed);
+		printf("Average    : %g microsecs\n", benchmark.average);
+		printf("Fastest    : %g microsecs\n", benchmark.minimum);
+		printf("Slowest    : %g microsecs\n", benchmark.maximum);
+	}
+};
+
+// ---------------------------------------------
+// CSV file result writer
+// ---------------------------------------------
+class CSVFileResultWriter : public ResultWriter {
+
+public:
+	CSVFileResultWriter() : ResultWriter() {}
+	virtual ~CSVFileResultWriter() {}
+	void generate(const Benchmark& benchmark) const {
+		char buffer[128];
+		sprintf_s(buffer, 128, "%s_result.csv", benchmark.name);
+		FILE* f = fopen(buffer, "w");
+		for (int j = 0; j < benchmark.runs; ++j) {
+			fprintf(f, "%g\n", benchmark.timings[j]);
+		}
+		fclose(f);
+	}
+};
 // ---------------------------------------------
 // Benchmark runner
 // ---------------------------------------------
 class BenchmarkRunner {
 
-	struct Benchmark {
-		const char* name;
-		BenchmarkFunctionPtr benchmark;
-		int runs;
-		int iterations;
-
-		Benchmark() : benchmark(0), runs(1), iterations(1) {}
-	};
-
-	typedef std::vector<Benchmark> Benchmarks;
+typedef std::vector<Benchmark> Benchmarks;
+typedef std::vector<ResultWriter*> ResultWriters;
 
 public:
+	void addResultWriter(ResultWriter& writer) {
+		_writers.push_back(&writer);
+	}
 	void add(BenchmarkFunctionPtr benchmark,const char* name, int runs, int iterations);
 	void execute();
 	static BenchmarkRunner* getInstance() {
 		if (_runner == 0) {
-			_runner = new BenchmarkRunner();
+			_runner = new BenchmarkRunner();			
 		}
 		return _runner;
 	}
 private:
-	BenchmarkRunner() {}
+	BenchmarkRunner() {
+		_writers.push_back(&_consoleWriter);
+	}
 	BenchmarkRunner(const BenchmarkRunner& other) {}
 	~BenchmarkRunner() {}
 	Benchmarks _benchmarks;
+	ResultWriters _writers;
+	ConsoleResultWriter _consoleWriter;
 	static BenchmarkRunner*_runner;
 };
 

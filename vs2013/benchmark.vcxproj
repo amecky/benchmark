@@ -18,6 +18,10 @@
     <ClInclude Include="..\demo\SimpleTest.h" />
     <ClInclude Include="..\source\BenchmarkRunner.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" />
+    <None Include="..\TODO.md" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CFCDD1D8-22C1-401F-B8F2-4308709EF888}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

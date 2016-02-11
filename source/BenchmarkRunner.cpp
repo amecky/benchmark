@@ -25,14 +25,13 @@ void BenchmarkRunner::add(BenchmarkFunctionPtr benchmark, const char* name, int 
 // execute
 // ---------------------------------------------
 void BenchmarkRunner::execute() {
-	char buffer[128];
 	LARGE_INTEGER frequency;
 	LARGE_INTEGER startingTime;
 	LARGE_INTEGER EndingTime;
 	QueryPerformanceFrequency(&frequency);
 	for (size_t i = 0; i < _benchmarks.size(); ++i) {
-		const Benchmark& def = _benchmarks[i];
-		float* timings = new float[def.runs];
+		Benchmark& def = _benchmarks[i];
+		def.timings = new float[def.runs];
 		int cnt = 0;
 		for (int r = 0; r < def.runs; ++r) {
 			QueryPerformanceCounter(&startingTime);
@@ -42,36 +41,24 @@ void BenchmarkRunner::execute() {
 			QueryPerformanceCounter(&EndingTime);
 			LARGE_INTEGER time;
 			time.QuadPart = EndingTime.QuadPart - startingTime.QuadPart;
-			timings[cnt++] = LIToMicroSecs(time, frequency);
+			def.timings[cnt++] = LIToMicroSecs(time, frequency);
 		}		
-		BenchmarkResult result;
-		result.minimum = timings[0];
-		result.maximum = timings[0];
-		result.elapsed = timings[0];
+		def.minimum = def.timings[0];
+		def.maximum = def.timings[0];
+		def.elapsed = def.timings[0];
 		for (int j = 1; j < def.runs; ++j) {
-			if (timings[j] < result.minimum) {
-				result.minimum = timings[j];
+			if (def.timings[j] < def.minimum) {
+				def.minimum = def.timings[j];
 			}
-			if (timings[j] > result.maximum) {
-				result.maximum = timings[j];
+			if (def.timings[j] > def.maximum) {
+				def.maximum = def.timings[j];
 			}
-			result.elapsed += timings[j];
+			def.elapsed += def.timings[j];
 		}
-		result.average = result.elapsed / static_cast<float>(def.runs);
-		sprintf_s(buffer, 128, "%s_result.csv", def.name);
-		FILE* f = fopen(buffer, "w");
-		for (int j = 0; j < def.runs; ++j) {
-			fprintf(f, "%d;%g\n", j, timings[j]);
+		def.average = def.elapsed / static_cast<float>(def.runs);
+		// generate output
+		for (size_t i = 0; i < _writers.size(); ++i) {
+			_writers[i]->generate(def);
 		}
-		fclose(f);
-		printf("=========== Result ===========\n");
-		printf("Benchmark  : %s\n", def.name);
-		printf("Runs       : %d\n", def.runs);
-		printf("Iterations : %d\n", def.iterations);
-		printf("Total      : %g microsecs\n", result.elapsed);
-		printf("Average    : %g microsecs\n", result.average);
-		printf("Fastest    : %g microsecs\n", result.minimum);
-		printf("Slowest    : %g microsecs\n", result.maximum);
-		delete[] timings;
 	}
 }

@@ -17,4 +17,8 @@
     </ClInclude>
     <ClInclude Include="..\source\BenchmarkRunner.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" />
+    <None Include="..\TODO.md" />
+  </ItemGroup>
 </Project>

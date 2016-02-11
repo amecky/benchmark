@@ -1,7 +1,17 @@
 # benchmark
-Very simple benchmarking utility written in simple C++. Easy to integrate and use.
+Measuring time is an important step when trying to optimize a piece of software. This tool is a simple benchmarking utility written in simple C++. It is easy to integrate and use.
+
+## Concept
+The tool provides a simple Macro to run your benchmarks. Basically it looks like this:
+
+	BENCHMARK("SomeName",runs, iterations) {
+		// run the code to measure
+	}
+There is a differentation between runs and iterations. Probably your code will be too fast to do some proper measuring and therefore you can define the number of iterations for a run. The time will be measured for the number of iterations. The number of runs defines how many times the code will be tested. For every run the time will be measured and saved. At the end you will get a simple result telling you the total time and the average, slowest and fatest time of every run.
+
 ## How to build
 Just take the BenchmarkRunner.h and BenchmarkRunner.cpp files located in the source subdirectory and include them in your project.
+
 Then in your main method you simply call:
 
     int main(int argc, char* argv[]) {
@@ -10,7 +20,7 @@ Then in your main method you simply call:
     }
 
 ## How to use it
-In order to run a benchmark you need to use the BENCHMARK macro. It will take a name of the test and two parameters. The first one is the number of runs and the second one the number of iterations. The time measurement will be taken for the number of iterations. For example if your method is too fast to be measured you can increase the number of iterations. Every run will then call your method multiply by iterations. But only the time of every run is measured.
+In order to run a benchmark you need to use the BENCHMARK macro. It will take a name of the test and two parameters. The first one is the number of runs and the second one the number of iterations. 
 
 ## Example
 The following is a simple way of measuring the time it takes to convert an integer into a string. The method shown here is definitely not the best way to implement this. 
@@ -30,6 +40,7 @@ The following is a simple way of measuring the time it takes to convert an integ
 		int i = 421234;
 		std::string str = number_to_string(i);
 	}
+Of course you can add as many Benchmarks as you like to your code. But beware that the name of the benchmark must be unique.
 
 ## The output
 The following shows the output of such a benchmark. 
@@ -42,9 +53,13 @@ The following shows the output of such a benchmark.
     Average    : 275.596 microsecs
     Fastest    : 264.427 microsecs
     Slowest    : 325.402 microsecs
+
 ## Some notes
 This small tool currenly only runs under windows. I might change it to use std::chrono to make it portable. 
+
 ## License
 It is released under the MIT license
+
 ## Contact
 Just send an email to amecky@gmail.com
+
