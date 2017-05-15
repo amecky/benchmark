@@ -9,7 +9,6 @@
     <ClCompile Include="..\demo\benchmark.cpp">
       <Filter>demo</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\BenchmarkRunner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\demo\SimpleTest.h">

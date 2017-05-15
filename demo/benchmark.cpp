@@ -1,3 +1,4 @@
+#define BENCHMARK_IMPLEMENTATION
 #include "..\source\BenchmarkRunner.h"
 #include "SimpleTest.h"
 
