@@ -1,7 +1,9 @@
 # benchmark
-Measuring time is an important step when trying to optimize a piece of software. This tool is a simple benchmarking utility written in simple C++. It is easy to integrate and use.
+Measuring time is an important step when trying to optimize a piece of software. This tool is a simple benchmarking utility written in simple C++. It is 
+a single header C++ implementation and therefore easy to integrate and use. Just put the BenchmarkRunner.h in your project.
 
 ## Concept
+
 The tool provides a simple Macro to run your benchmarks. Basically it looks like this:
 
 	BENCHMARK("SomeName",runs, iterations) {
@@ -10,9 +12,12 @@ The tool provides a simple Macro to run your benchmarks. Basically it looks like
 There is a differentation between runs and iterations. Probably your code will be too fast to do some proper measuring and therefore you can define the number of iterations for a run. The time will be measured for the number of iterations. The number of runs defines how many times the code will be tested. For every run the time will be measured and saved. At the end you will get a simple result telling you the total time and the average, slowest and fatest time of every run.
 
 ## How to build
-Just take the BenchmarkRunner.h and BenchmarkRunner.cpp files located in the source subdirectory and include them in your project.
+
+Just take the BenchmarkRunner.h and include them in your project. At one point you need to define BENCHMARK_IMPLEMENTATION.
 
 Then in your main method you simply call:
+#define BENCHMARK_IMPLEMENTATION
+#include ".BenchmarkRunner.h"
 
     int main(int argc, char* argv[]) {
 	    BenchmarkRunner::getInstance()->execute();

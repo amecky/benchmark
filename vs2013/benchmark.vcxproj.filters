@@ -14,7 +14,7 @@
     <ClInclude Include="..\demo\SimpleTest.h">
       <Filter>demo</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\BenchmarkRunner.h" />
+    <ClInclude Include="..\BenchmarkRunner.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\README.md" />
